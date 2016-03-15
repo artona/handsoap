@@ -155,6 +155,10 @@ module Handsoap
           domain = request.url.match(/^(http(s?):\/\/[^\/]+\/)/)[1]
           http_client.set_auth(domain, request.username, request.password)
         end
+
+        # HACK to get this working inside Artona
+        http_client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
         # pack headers
         headers = request.headers.inject([]) do |arr, (k,v)|
           arr + v.map {|x| [k,x] }
